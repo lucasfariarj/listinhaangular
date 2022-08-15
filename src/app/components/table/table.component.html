@@ -1,0 +1,25 @@
+<section class="container">
+    <div class="row">
+      <div *ngIf="listItens">
+        <h2>Não há itens salvos</h2>
+      </div>
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th scope="col">Nome</th>
+          <th scope="col">Link</th>
+          <th scope="col">Categoria</th>
+          <th scope="col">Opções</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let item of listItens; let id = index">
+          <td>{{item.name}}</td>
+          <td><a href="{{item.link}}" target="_blank">{{item.link}}</a></td>
+          <td>{{item.categories}}</td>
+          <td><button class="btn btn-danger btn-sm" (click)="deleteItem(id)">Delete</button></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
