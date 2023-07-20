@@ -1,17 +1,20 @@
 <div class="modal-header">
-    <h3 class="modal-title">Inserir Produto</h3>
+    <h3 class="modal-title">Insert Item</h3>
 </div>
 <div class="modal-body">
-<form class="form-group" [formGroup]="cadastroForm" (ngSubmit)="submitForm()">
-    <input type="text" class="form-control mb-4" formControlName="name" placeholder="Nome">
-    <input type="text" class="form-control mb-4" formControlName="link" placeholder="Link">
-    <select class="form-control mb-4" formControlName="categories">
-        <option selected disabled>Categoria</option>
-        <option value="Placa de Vídeo">Placa de Vídeo</option>
-        <option value="Memória">Memória</option>
-        <option value="Processador">Processador</option>
-        <option value="Outros">Periféricos</option>
+  <form (ngSubmit)="createList()">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" [(ngModel)]="newItem.name" required>
+
+    <label for="link">Link:</label>
+    <input type="text" id="link" name="link" [(ngModel)]="newItem.link" required>
+
+    <label for="category">Category:</label>
+    <select id="category" name="category" [(ngModel)]="newItem.category" required>
+      <option *ngFor="let category of categories" value="{{category.name}}">
+        {{category.name}}
+      </option>
     </select>
-    <button  class="btn btn-success d-block">Salvar</button>
-</form>
+    <button type="submit">Add Item</button>
+  </form>
 </div>

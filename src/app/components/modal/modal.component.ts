@@ -2,7 +2,9 @@ import { ThisReceiver } from '@angular/compiler';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { ListItens } from 'src/app/models/list-itens';
+import { Category } from 'src/app/models/category';
+import { ListItem } from 'src/app/models/ListItem';
+import { CategoryService } from 'src/app/services/category-service.service';
 import { ListaItensService } from 'src/app/services/lista-itens.service';
 
 @Component({
@@ -12,21 +14,31 @@ import { ListaItensService } from 'src/app/services/lista-itens.service';
 })
 export class ModalComponent implements OnInit {
 
-  public cadastroForm: FormGroup = this.fb.group({
-    name: [''],
-    link: [''],
-    categories: [''],
-  })
+  categories: Array<Category> = [];
+  lists: Array<ListItem> = [];
+  newItem: ListItem = { id: 0, name: '', link: '', category: '' };
 
-  constructor(private fb:FormBuilder, private listaService: ListaItensService) {}
+  constructor(private fb:FormBuilder,
+    private listService: ListaItensService,
+    private categoryService: CategoryService)
+    {
+      this.categories = this.categoryService.getAllCategories();
+    }
 
   ngOnInit(): void {
+    this.categories = this.categoryService.getAllCategories();
   }
-    
 
-public submitForm(){
-  this.listaService.setList(this.cadastroForm.value)
-  console.log(this.cadastroForm.value)
-}
+  createList(): void {
+    const newItemWithId: ListItem = { ...this.newItem, id: new Date().getTime() };
+    this.listService.createList(newItemWithId);
+    this.lists.push(newItemWithId);
+    this.clearForm();
+  }
+
+  clearForm(): void {
+    this.newItem = { id: 0, name: '', link: '', category: '' };
+  }
+
 
 }
