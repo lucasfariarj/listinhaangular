@@ -1,5 +1,14 @@
 <section class="container">
     <div class="row">
+      <!-- <input type="text" class="form-control mb-2" [(ngModel)]="searchText" placeholder="Search..."> -->
+      <div *ngIf="lists.length > 0" class="d-flex gap-2 mb-2">
+        <button class="btn btn-success">
+          <i class="bi bi-search"></i>
+        </button>
+        <button class="btn btn-success">
+          <i class="bi bi-funnel"></i>
+        </button>
+      </div>
       <div *ngIf="lists.length === 0">
         <h2>There are no saved items</h2>
       </div>
@@ -9,19 +18,35 @@
             <th>Name</th>
             <th>Link</th>
             <th>Category</th>
+            <th>Bought</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          <ng-container *ngFor="let item of lists; let i = index">
+          <ng-container *ngFor="let item of lists | filter: searchText; let i = index;">
             <tr>
               <ng-container *ngIf="!item.editMode; else editModeTemplate">
-                <td>{{ item.name | slice:0:40}}{{ item.name.length > 40 ? '...' : '' }}</td>
-                <td><a target="_blank" href="{{item.link}}">{{ item.link | slice:0:30 | lowercase}}{{ item.link.length > 30 ? '...' : '' }}</a></td>
-                <td>{{ item.category }}</td>
                 <td>
-                  <button class="btn btn-primary btn-sm" (click)="editItem(item)">Edit</button>
-                  <button class="btn btn-danger btn-sm" (click)="deleteList(item)">Delete</button>
+                  {{ item.name | slice:0:40}}{{ item.name.length > 40 ? '...' : '' }}
+                </td>
+                <td>
+                  <a target="_blank" href="{{item.link}}">{{ item.link?.slice(0, 30) | lowercase}}{{ item.link.length > 30 ? '...' : '' }}</a>
+                </td>
+                <td>
+                  {{ item.category }}
+                </td>
+                <td class="text-center">
+                  <input type="checkbox" class="form-check-input" [(ngModel)]="item.bought" (ngModelChange)="updateBuyValue($event, item)" value="{{ item.bought }}">
+                </td>
+                <td>
+                  <div class="d-flex gap-2">
+                    <button class="btn btn-primary btn-sm" (click)="editItem(item)">
+                      <i class="bi bi-pencil"></i>
+                    </button>
+                    <button class="btn btn-danger btn-sm" (click)="deleteList(item)">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </div>
                 </td>
               </ng-container>
               <ng-template #editModeTemplate>
@@ -34,9 +59,18 @@
                 <td>
                   <input type="text" [(ngModel)]="item.category" class="form-control" required>
                 </td>
+                <td class="text-center">
+                  <input type="checkbox" class="form-check-input" [(ngModel)]="item.bought" value="{{ item.bought }}">
+                </td>
                 <td>
-                  <button class="btn btn-success btn-sm" (click)="saveItem(item)">Save</button>
-                  <button class="btn btn-secondary btn-sm" (click)="cancelEdit(item)">Cancel</button>
+                  <div class="d-flex gap-2">
+                    <button class="btn btn-primary btn-sm" (click)="saveItem(item)">
+                      <i class="bi bi-arrow-clockwise"></i>
+                    </button>
+                    <button class="btn btn-secondary btn-sm" (click)="cancelEdit(item)">
+                      <i class="bi bi-x"></i>
+                    </button>
+                  </div>
                 </td>
               </ng-template>
             </tr>
@@ -50,26 +84,42 @@
         <div class="form-group">
           <input type="text" id="categoryName" name="categoryName" [(ngModel)]="newCategory.name" class="form-control mb-2" required>
         </div>
-        <button type="submit" class="btn btn-primary">Add Category</button>
+        <button type="submit" class="btn btn-success">Add Category</button>
       </form>
     </div>
 
     <div>
       <h3 class="my-3">Categories</h3>
       <div class="d-flex text-center gap-3">
-        <div class="border p-3" *ngFor="let category of categories">
+        <div class="border rounded p-3" *ngFor="let category of categories">
           <ng-container *ngIf="!category.editMode; else editModeTemplate">
             {{ category.name }}
             <div class="d-flex">
-              <button class="d-block btn btn-link btn-sm" (click)="editCategory(category)">Edit</button>
-              <button class="btn btn-link btn-sm" (click)="removeCategory(category)">Remove</button>
+              <button class="d-block btn btn-link btn-sm" (click)="editCategory(category)">
+                <span class="badge text-bg-primary">
+                  Edit
+                </span>
+              </button>
+              <button class="btn btn-link btn-sm" (click)="removeCategory(category)">
+                <span class="badge text-bg-danger">
+                  Delete
+                </span>
+              </button>
             </div>
             </ng-container>
 
           <ng-template #editModeTemplate>
             <input type="text" [(ngModel)]="category.name" class="form-control" required>
-            <button class="btn btn-link btn-sm" (click)="saveCategory(category)">Save</button>
-            <button class="btn btn-link btn-sm" (click)="cancelEditCategory(category)">Cancel</button>
+            <button class="btn btn-link btn-sm" (click)="saveCategory(category)">
+              <span class="badge text-bg-primary">
+                Save
+              </span>
+            </button>
+            <button class="btn btn-link btn-sm" (click)="cancelEditCategory(category)">
+              <span class="badge text-bg-secondary">
+                Cancel
+              </span>
+            </button>
           </ng-template>
         </div>
       </div>

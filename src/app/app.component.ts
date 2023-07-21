@@ -8,7 +8,7 @@ import { ModalComponent } from './components/modal/modal.component';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'Meus Favoritos Aliexpress';
+  title = 'Minha Lista';
 
   constructor(private modalService: NgbModal) {}
 

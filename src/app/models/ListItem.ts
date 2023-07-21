@@ -3,5 +3,6 @@ export interface ListItem {
   name: string;
   link: string;
   category: string;
+  bought: boolean;
   editMode?: boolean
 }

@@ -12,10 +12,12 @@ import { ListaItensService } from 'src/app/services/lista-itens.service';
 })
 export class TableComponent {
 
-  lists: Array<ListItem> = [];
-  newItem: ListItem = { id: 0, name: '', link: '', category: '', editMode: false };
-  categories: Array<Category> = [];
-  newCategory: Category = { id: 0, name: '' };
+  public lists: Array<ListItem> = [];
+  public newItem: ListItem = { id: 0, name: '', link: '', category: '', editMode: false, bought: false };
+  public categories: Array<Category> = [];
+  public newCategory: Category = { id: 0, name: '' };
+  public searchText: string = '';
+  public searchCategory: string = '';
 
   constructor(private listService: ListaItensService,
     private categoryService: CategoryService,
@@ -25,32 +27,39 @@ export class TableComponent {
     this.categories = this.categoryService.getAllCategories();
   }
 
-  editItem(item: ListItem): void {
+  public editItem(item: ListItem): void {
     item.editMode = true;
   }
 
-  saveItem(item: ListItem): void {
+  public saveItem(item: ListItem): void {
     item.editMode = false;
     this.listService.updateList(item);
   }
 
-  cancelEdit(item: ListItem): void {
+  public cancelEdit(item: ListItem): void {
     item.editMode = false;
   }
 
-  deleteList(item: ListItem): void {
+  public deleteList(item: ListItem): void {
     this.listService.deleteList(item);
     this.lists = this.lists.filter(listItem => listItem.id !== item.id);
   }
 
-  createList(): void {
+  public createList(): void {
     const newItemWithId: ListItem = { ...this.newItem, id: new Date().getTime() };
     this.listService.createList(newItemWithId);
     this.lists.push(newItemWithId);
     this.clearForm();
   }
 
-  createCategory(): void {
+  public updateBuyValue(newBuyValue: boolean, item: ListItem) {
+      item.bought = newBuyValue
+      console.log(item)
+      this.listService.updateList(item);
+  }
+
+
+  public createCategory(): void {
     const newCategoryWithId: Category = { ...this.newCategory, id: new Date().getTime() };
     this.categoryService.saveCategory(newCategoryWithId);
     this.categories.push(newCategoryWithId);
@@ -58,26 +67,26 @@ export class TableComponent {
     this.newCategory = { id: 0, name: '' };
   }
 
-  editCategory(category: Category): void {
+  public editCategory(category: Category): void {
     category.editMode = true;
   }
 
-  saveCategory(category: Category): void {
+  public saveCategory(category: Category): void {
     category.editMode = false;
     this.categoryService.updateCategory(category);
   }
 
-  cancelEditCategory(category: Category): void {
+  public cancelEditCategory(category: Category): void {
     category.editMode = false;
   }
 
-  removeCategory(category: Category): void {
+  public removeCategory(category: Category): void {
     this.categoryService.removeCategory(category);
     this.categories = this.categories.filter(cat => cat.id !== category.id);
   }
 
-  clearForm(): void {
-    this.newItem = { id: 0, name: '', link: '', category: '' };
+  public clearForm(): void {
+    this.newItem = { id: 0, name: '', link: '', category: '', bought: false};
   }
 
 }

@@ -17,7 +17,7 @@ export class ModalComponent implements OnInit {
   @Output() itemCreated = new EventEmitter<ListItem>();
   categories: Array<Category> = [];
   lists: Array<ListItem> = [];
-  newItem: ListItem = { id: 0, name: '', link: '', category: '' };
+  newItem: ListItem = { id: 0, name: '', link: '', category: '', bought: false };
 
   constructor(private fb:FormBuilder,
     private listService: ListaItensService,
@@ -40,7 +40,7 @@ export class ModalComponent implements OnInit {
   }
 
   clearForm(): void {
-    this.newItem = { id: 0, name: '', link: '', category: '' };
+    this.newItem = { id: 0, name: '', link: '', category: '', bought: false };
   }
 
 
