@@ -1,5 +1,5 @@
 import { ThisReceiver } from '@angular/compiler';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Category } from 'src/app/models/category';
@@ -14,13 +14,15 @@ import { ListaItensService } from 'src/app/services/lista-itens.service';
 })
 export class ModalComponent implements OnInit {
 
+  @Output() itemCreated = new EventEmitter<ListItem>();
   categories: Array<Category> = [];
   lists: Array<ListItem> = [];
   newItem: ListItem = { id: 0, name: '', link: '', category: '' };
 
   constructor(private fb:FormBuilder,
     private listService: ListaItensService,
-    private categoryService: CategoryService)
+    private categoryService: CategoryService,
+    )
     {
       this.categories = this.categoryService.getAllCategories();
     }
@@ -34,6 +36,7 @@ export class ModalComponent implements OnInit {
     this.listService.createList(newItemWithId);
     this.lists.push(newItemWithId);
     this.clearForm();
+    this.itemCreated.emit(newItemWithId);
   }
 
   clearForm(): void {

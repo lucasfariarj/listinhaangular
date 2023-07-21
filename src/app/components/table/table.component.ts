@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Category } from 'src/app/models/category';
 import { ListItem } from 'src/app/models/ListItem';
@@ -18,7 +18,8 @@ export class TableComponent {
   newCategory: Category = { id: 0, name: '' };
 
   constructor(private listService: ListaItensService,
-    private categoryService: CategoryService )
+    private categoryService: CategoryService,
+     )
   {
     this.lists = this.listService.getAllLists()
     this.categories = this.categoryService.getAllCategories();

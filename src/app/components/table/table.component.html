@@ -16,8 +16,8 @@
           <ng-container *ngFor="let item of lists; let i = index">
             <tr>
               <ng-container *ngIf="!item.editMode; else editModeTemplate">
-                <td>{{ item.name }}</td>
-                <td>{{ item.link }}</td>
+                <td>{{ item.name | slice:0:40}}{{ item.name.length > 40 ? '...' : '' }}</td>
+                <td><a target="_blank" href="{{item.link}}">{{ item.link | slice:0:30 | lowercase}}{{ item.link.length > 30 ? '...' : '' }}</a></td>
                 <td>{{ item.category }}</td>
                 <td>
                   <button class="btn btn-primary btn-sm" (click)="editItem(item)">Edit</button>
@@ -45,32 +45,34 @@
       </table>
     </div>
     <div>
-      <h3>Add New Category</h3>
+      <h3 class="my-3">Add New Category</h3>
       <form (ngSubmit)="createCategory()">
         <div class="form-group">
-          <input type="text" id="categoryName" name="categoryName" [(ngModel)]="newCategory.name" class="form-control" required>
+          <input type="text" id="categoryName" name="categoryName" [(ngModel)]="newCategory.name" class="form-control mb-2" required>
         </div>
         <button type="submit" class="btn btn-primary">Add Category</button>
       </form>
     </div>
 
     <div>
-      <h3>Categories</h3>
-      <ul>
-        <li *ngFor="let category of categories">
+      <h3 class="my-3">Categories</h3>
+      <div class="d-flex text-center gap-3">
+        <div class="border p-3" *ngFor="let category of categories">
           <ng-container *ngIf="!category.editMode; else editModeTemplate">
             {{ category.name }}
-            <button class="btn btn-primary btn-sm" (click)="editCategory(category)">Edit</button>
-            <button class="btn btn-danger btn-sm" (click)="removeCategory(category)">Remove</button>
-          </ng-container>
+            <div class="d-flex">
+              <button class="d-block btn btn-link btn-sm" (click)="editCategory(category)">Edit</button>
+              <button class="btn btn-link btn-sm" (click)="removeCategory(category)">Remove</button>
+            </div>
+            </ng-container>
 
           <ng-template #editModeTemplate>
             <input type="text" [(ngModel)]="category.name" class="form-control" required>
-            <button class="btn btn-success btn-sm" (click)="saveCategory(category)">Save</button>
-            <button class="btn btn-secondary btn-sm" (click)="cancelEditCategory(category)">Cancel</button>
+            <button class="btn btn-link btn-sm" (click)="saveCategory(category)">Save</button>
+            <button class="btn btn-link btn-sm" (click)="cancelEditCategory(category)">Cancel</button>
           </ng-template>
-        </li>
-      </ul>
+        </div>
+      </div>
     </div>
 
   </section>

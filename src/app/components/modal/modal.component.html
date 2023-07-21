@@ -3,18 +3,14 @@
 </div>
 <div class="modal-body">
   <form (ngSubmit)="createList()">
-    <label for="name">Name:</label>
-    <input type="text" id="name" name="name" [(ngModel)]="newItem.name" required>
-
-    <label for="link">Link:</label>
-    <input type="text" id="link" name="link" [(ngModel)]="newItem.link" required>
-
-    <label for="category">Category:</label>
-    <select id="category" name="category" [(ngModel)]="newItem.category" required>
+    <input class="form-control mb-2" placeholder="Name" type="text" id="name" name="name" [(ngModel)]="newItem.name" required>
+    <input class="form-control mb-2" placeholder="Link" type="text" id="link" name="link" [(ngModel)]="newItem.link" required>
+    <select class="form-control mb-2" id="category" name="category" [(ngModel)]="newItem.category" required>
+      <option value="" disabled>Category</option>
       <option *ngFor="let category of categories" value="{{category.name}}">
         {{category.name}}
       </option>
     </select>
-    <button type="submit">Add Item</button>
+    <button class="btn btn-primary d-block" type="submit">Add Item</button>
   </form>
 </div>
