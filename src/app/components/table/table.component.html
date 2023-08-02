@@ -18,6 +18,7 @@
             <th>Name</th>
             <th>Link</th>
             <th>Category</th>
+            <th>Value</th>
             <th>Bought</th>
             <th>Actions</th>
           </tr>
@@ -34,6 +35,9 @@
                 </td>
                 <td>
                   {{ item.category }}
+                </td>
+                <td>
+                  {{item.value}}
                 </td>
                 <td class="text-center">
                   <input type="checkbox" class="form-check-input" [(ngModel)]="item.bought" (ngModelChange)="updateBuyValue($event, item)" value="{{ item.bought }}">
@@ -58,6 +62,9 @@
                 </td>
                 <td>
                   <input type="text" [(ngModel)]="item.category" class="form-control" required>
+                </td>
+                <td>
+                  <input type="text" [(ngModel)]="item.value" class="form-control" required>
                 </td>
                 <td class="text-center">
                   <input type="checkbox" class="form-check-input" [(ngModel)]="item.bought" value="{{ item.bought }}">

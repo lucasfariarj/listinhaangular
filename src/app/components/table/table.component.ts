@@ -13,7 +13,7 @@ import { ListaItensService } from 'src/app/services/lista-itens.service';
 export class TableComponent {
 
   public lists: Array<ListItem> = [];
-  public newItem: ListItem = { id: 0, name: '', link: '', category: '', editMode: false, bought: false };
+  public newItem: ListItem = { id: 0, name: '', link: '', category: '', value: '',editMode: false, bought: false };
   public categories: Array<Category> = [];
   public newCategory: Category = { id: 0, name: '' };
   public searchText: string = '';
@@ -86,7 +86,7 @@ export class TableComponent {
   }
 
   public clearForm(): void {
-    this.newItem = { id: 0, name: '', link: '', category: '', bought: false};
+    this.newItem = { id: 0, name: '', link: '', category: '', value: '', bought: false};
   }
 
 }
